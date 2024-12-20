@@ -3,33 +3,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  padding: 20px; 
+  box-sizing: border-box;
+  background-color: #f8f9fa; 
 }
 
-.AddPassword {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-  width: 60%;
-  height: 300px;
-  border-radius: 20px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.AddPassword button, input {
-  width: 300px;
-  height: 40px;
-  border: none;
-  border-radius: 7px;
-  margin: 10px;
-  padding-left: 15px;
-  font-size: 17px;
-}
-
-button {
-  cursor: pointer;
+body {
+  background-color: white;
+  color: #333; 
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif; 
 }
 
 .Passwords {
@@ -40,16 +25,140 @@ button {
 }
 
 .Password {
-  width: 400px;
-  height: 70px;
-  background-color: black;
+  width: 400px; 
+  height: 30px;
+  background-color: rgb(255, 221, 0);
   border-radius: 10px;
-  color: white;
+  color: black;
   display: flex;
-  justify-content: center;
-  margin: 10px;
-  font-size: 20px;
+  justify-content: space-between; 
+  align-items: center; 
+  margin: 5px;
+  font-size: 10px;
   font-family: Arial;
-  align-items: center;
   cursor: pointer;
+  padding: 0 10px; 
+}
+
+.Password:hover {
+  transform: scale(1.05); 
+}
+
+.AddButton {
+  width: 300px;
+  height: 50px;
+  border: none;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 18px; 
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  cursor: pointer;
+  color: white;
+  background-color: #28a745; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838; 
+  transform: scale(1.05); 
+}
+
+.AddPassword input {
+  width: 300px;
+  height: 40px;
+  border: 2px solid #ccc; 
+  border-radius: 7px;
+  margin: 10px;
+  padding-left: 15px;
+  font-size: 18px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  transition: border-color 0.3s ease; 
+}
+
+.AddPassword input:focus {
+  border-color: #ffd700; 
+  outline: none; 
+}
+
+.AddPassword {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffd700;
+  width: 60%;
+  max-width: 600px; 
+  height: auto;
+  padding: 20px; 
+  border-radius: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  text-align: center; 
+}
+
+.DeleteButton {
+  background-color: #d33;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.DeleteButton:hover {
+  background-color: #b22;
+}
+
+.ButtonBox {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.GenerateButton {
+  width: 80px;
+  height: 50px;
+  border: none;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 14px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: #ff0000;
+}
+
+.GenerateButton:hover {
+  background-color: #0056b3;
+}
+
+.PasswordInputContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 350px;
+  margin-bottom: 15px;
+}
+
+.PasswordInputContainer input {
+  flex: 1;
+  padding-right: 60px; 
+}
+
+.TogglePasswordButton {
+  position: absolute;
+  right: 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.TogglePasswordButton:hover {
+  background-color: #e0e0e0;
 }
