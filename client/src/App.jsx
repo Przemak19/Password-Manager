@@ -2,13 +2,17 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Swal from 'sweetalert2';
+import zxcvbn from 'zxcvbn';
 
 function App() {
   const [password, setPassword] = useState('');
   const [title, setTitle] = useState('');
   const [passwordList, setPasswordList] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  
+  const [passwordStrength, setPasswordStrength] = useState(null); // Nowy stan dla siły hasła
+  const [passwordFeedback, setPasswordFeedback] = useState(''); // Feedback dotyczący hasła
+  const [passwordCrackTime, setPasswordCrackTime] = useState(''); // Czas złamania hasła
+
   // Pobieranie haseł
   const fetchPasswords = () => {
     Axios.get('http://localhost:3001/showpasswords')
@@ -73,6 +77,7 @@ function App() {
 
         setPassword('');
         setTitle('');
+        resetPasswordStrength(); // Resetujemy pasek siły hasła po dodaniu nowego hasła
       })
       .catch((error) => {
         Swal.fire({
@@ -96,6 +101,7 @@ function App() {
           text: `Twoje nowe hasło: ${response.data.password}`,
           confirmButtonColor: '#28a745',
         });
+        evaluatePasswordStrength(response.data.password); // Ocena wygenerowanego hasła
       })
       .catch((error) => console.error(error));
   };
@@ -163,6 +169,52 @@ function App() {
     });
   };
 
+  // Funkcja do sprawdzania siły hasła
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    evaluatePasswordStrength(newPassword);
+  };
+
+  // Funkcja oceniająca siłę hasła
+  const evaluatePasswordStrength = (newPassword) => {
+    const result = zxcvbn(newPassword);
+    setPasswordStrength(result.score); // Ustawiamy ocenę siły hasła
+    setPasswordFeedback(result.feedback.suggestions.join(', ')); // Ustawiamy feedback (sugestie)
+    setPasswordCrackTime(result.crack_times_display.offline_slow_hashing_1e4_per_second); // Czas złamania hasła
+  };
+
+  // Resetowanie siły hasła po dodaniu nowego hasła
+  const resetPasswordStrength = () => {
+    setPasswordStrength(null);
+    setPasswordFeedback('');
+    setPasswordCrackTime('');
+  };
+
+  // Funkcja renderująca pasek siły hasła
+  const renderPasswordStrength = () => {
+    if (passwordStrength === null) return null;
+
+    const strengthLabels = ["Bardzo słabe", "Słabe", "Średnie", "Dobre", "Bardzo dobre"];
+    const strengthClassNames = ["weak", "fair", "good", "strong", "very-strong"];
+
+    return (
+      <div className="password-strength">
+        <div className={`password-strength-bar ${strengthClassNames[passwordStrength]}`} />
+        <span>{strengthLabels[passwordStrength]}</span>
+        <div className="password-crack-time">
+          <strong>Szacowany czas złamania: </strong>
+          {passwordCrackTime ? passwordCrackTime : 'Brak danych'}
+        </div>
+        {passwordFeedback && (
+          <div className="password-feedback">
+            <strong>Sugestie:</strong> {passwordFeedback}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="App">
       <div className="AddPassword">
@@ -175,23 +227,26 @@ function App() {
         />
         <text>Hasło</text>
         <div className="PasswordInputContainer">
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="hasło123"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <button
-          type="button"
-          className="TogglePasswordButton"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? "Ukryj" : "Pokaż"}
-        </button>
-      </div>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="hasło123"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <button
+            type="button"
+            className="TogglePasswordButton"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "Ukryj" : "Pokaż"}
+          </button>
+        </div>
+        <div className='PasswordInfo'>
+        {renderPasswordStrength()} 
+        </div>
         <div className="ButtonBox">
-        <button onClick={addPassword} className="AddButton">Dodaj hasło</button>
-        <button onClick={generatePassword} className="GenerateButton">Wygeneruj hasło</button>
+          <button onClick={addPassword} className="AddButton">Dodaj hasło</button>
+          <button onClick={generatePassword} className="GenerateButton">Wygeneruj hasło</button>
         </div>
       </div>
       <div className="Passwords">

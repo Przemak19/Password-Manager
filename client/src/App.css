@@ -162,3 +162,56 @@ button:hover {
 .TogglePasswordButton:hover {
   background-color: #e0e0e0;
 }
+
+.password-strength {
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.password-strength-bar {
+  height: 5px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.password-strength-bar.weak {
+  background-color: red;
+}
+
+.password-strength-bar.fair {
+  background-color: orange;
+}
+
+.password-strength-bar.good {
+  background-color: yellow;
+}
+
+.password-strength-bar.strong {
+  background-color: green;
+}
+
+.password-strength-bar.very-strong {
+  background-color: darkgreen;
+}
+
+.password-crack-time {
+  margin-top: 5px;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #666;
+}
+
+.password-feedback {
+  margin-top: 5px;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #666;
+  font-style: italic;
+}
+
+.PasswordInfo {
+  width: 55%;
+}
