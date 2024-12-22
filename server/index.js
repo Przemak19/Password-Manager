@@ -3,23 +3,9 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 const zxcvbn = require("zxcvbn");
-const { Translate } = require("@google-cloud/translate").v2;
 const PORT = 3001;
 
 const { encrypt, decrypt } = require("./pswrd_encrypt");
-
-const translate = new Translate();
-
-// Funkcja tłumaczenia na polski
-async function translateToPolish(text) {
-  try {
-    const [translation] = await translate.translate(text, 'pl');
-    return translation;
-  } catch (error) {
-    console.error("Błąd tłumaczenia:", error);
-    return text; // Jeśli wystąpi błąd, zwróć oryginalny tekst
-  }
-}
 
 app.use(cors());
 app.use(express.json());
@@ -34,8 +20,7 @@ app.post("/addpassword", async (req, res) => {
 
   if (score < 1) {
     const warningMessage = "Hasło jest zbyt słabe.";
-    const translatedMessage = await translateToPolish(warningMessage);
-    return res.status(400).send({ message: translatedMessage });
+    return res.status(400).send({ message: warningMessage }); // Zwrócenie ostrzeżenia bez tłumaczenia
   }
 
   const hashedPassword = encrypt(password);

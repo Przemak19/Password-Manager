@@ -82,8 +82,8 @@ function App() {
       .catch((error) => {
         Swal.fire({
           icon: 'error',
-          title: 'Błąd!',
-          text: 'Nie udało się dodać hasła.',
+          title: 'Bardzo słabe hasło!',
+          text: 'Hasło jest zbyt słabe!',
           confirmButtonColor: '#28a745',
         });
         console.error(error);
