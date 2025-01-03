@@ -28,8 +28,8 @@ function App() {
       .catch((error) => {
         Swal.fire({
           icon: 'error',
-          title: 'Błąd!',
-          text: 'Nie udało się załadować haseł.',
+          title: 'Error!',
+          text: 'Failed to load passwords.',
           confirmButtonColor: '#28a745',
         });
         console.error(error);
@@ -46,8 +46,8 @@ function App() {
       Swal.fire({
         width: '350px',
         icon: 'warning',
-        title: 'Uwaga!',
-        text: 'Uzupełnij oba pola: nazwę i hasło!',
+        title: 'Warning!',
+        text: 'Complete both fields: name and password!',
         confirmButtonText: 'OK',
         confirmButtonColor: '#28a745',
         timer: 3000,
@@ -59,8 +59,8 @@ function App() {
       .then((response) => {
         Swal.fire({
           icon: 'success',
-          title: 'Sukces!',
-          text: 'Hasło zostało dodane.',
+          title: 'Success!',
+          text: 'The password has been added.',
           confirmButtonColor: '#28a745',
         });
 
@@ -82,8 +82,8 @@ function App() {
       .catch((error) => {
         Swal.fire({
           icon: 'error',
-          title: 'Bardzo słabe hasło!',
-          text: 'Hasło jest zbyt słabe!',
+          title: 'Very weak password!',
+          text: 'The password is too weak!',
           confirmButtonColor: '#28a745',
         });
         console.error(error);
@@ -97,8 +97,8 @@ function App() {
         setPassword(response.data.password);
         Swal.fire({
           icon: 'info',
-          title: 'Wygenerowano hasło!',
-          text: `Twoje nowe hasło: ${response.data.password}`,
+          title: 'Password generated!',
+          text: `Your new password: ${response.data.password}`,
           confirmButtonColor: '#28a745',
         });
         evaluatePasswordStrength(response.data.password); // Ocena wygenerowanego hasła
@@ -125,8 +125,8 @@ function App() {
         .catch((error) => {
           Swal.fire({
             icon: 'error',
-            title: 'Błąd!',
-            text: 'Nie udało się odszyfrować hasła.',
+            title: 'Error!',
+            text: 'Password decryption failed.',
             confirmButtonColor: '#28a745',
           });
           console.error(error);
@@ -137,20 +137,20 @@ function App() {
   // Usuwanie hasła
   const deletePassword = (id) => {
     Swal.fire({
-      title: 'Czy na pewno chcesz usunąć to hasło?',
+      title: 'Are you sure you want to delete this password?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Usuń',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#d33',
-      cancelButtonText: 'Anuluj',
+      cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
         Axios.delete(`http://localhost:3001/deletepassword/${id}`)
           .then(() => {
             Swal.fire({
               icon: 'success',
-              title: 'Usunięto!',
-              text: 'Hasło zostało usunięte.',
+              title: 'Deleted!',
+              text: 'The password has been deleted.',
               confirmButtonColor: '#28a745',
             });
 
@@ -159,8 +159,8 @@ function App() {
           .catch((error) => {
             Swal.fire({
               icon: 'error',
-              title: 'Błąd!',
-              text: 'Nie udało się usunąć hasła.',
+              title: 'Error!',
+              text: 'Failed to remove password.',
               confirmButtonColor: '#28a745',
             });
             console.error(error);
@@ -195,7 +195,7 @@ function App() {
   const renderPasswordStrength = () => {
     if (passwordStrength === null) return null;
 
-    const strengthLabels = ["Bardzo słabe", "Słabe", "Średnie", "Dobre", "Bardzo dobre"];
+    const strengthLabels = ["Very weak", "Weak", "Average", "Good", "Very good"];
     const strengthClassNames = ["weak", "fair", "good", "strong", "very-strong"];
 
     return (
@@ -203,12 +203,12 @@ function App() {
         <div className={`password-strength-bar ${strengthClassNames[passwordStrength]}`} />
         <span>{strengthLabels[passwordStrength]}</span>
         <div className="password-crack-time">
-          <strong>Szacowany czas złamania: </strong>
+          <strong>Estimated breakage time: </strong>
           {passwordCrackTime ? passwordCrackTime : 'Brak danych'}
         </div>
         {passwordFeedback && (
           <div className="password-feedback">
-            <strong>Sugestie:</strong> {passwordFeedback}
+            <strong>Suggestions:</strong> {passwordFeedback}
           </div>
         )}
       </div>
@@ -218,18 +218,18 @@ function App() {
   return (
     <div className="App">
       <div className="AddPassword">
-        <text>Nazwa strony</text>
+        <text>Page name</text>
         <input
           type="text"
           placeholder="Youtube"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <text>Hasło</text>
+        <text>Password</text>
         <div className="PasswordInputContainer">
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="hasło123"
+            placeholder="password123"
             value={password}
             onChange={handlePasswordChange}
           />
@@ -238,15 +238,15 @@ function App() {
             className="TogglePasswordButton"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? "Ukryj" : "Pokaż"}
+            {showPassword ? "Hide" : "Show"}
           </button>
         </div>
         <div className='PasswordInfo'>
         {renderPasswordStrength()} 
         </div>
         <div className="ButtonBox">
-          <button onClick={addPassword} className="AddButton">Dodaj hasło</button>
-          <button onClick={generatePassword} className="GenerateButton">Wygeneruj hasło</button>
+          <button onClick={addPassword} className="AddButton">Add password</button>
+          <button onClick={generatePassword} className="GenerateButton">Generate password</button>
         </div>
       </div>
       <div className="Passwords">
@@ -254,7 +254,7 @@ function App() {
           <div key={val.id} className="Password" onClick={() => toggleEncryption(val)}>
             <h3 >{val.title}</h3>
             <button onClick={() => deletePassword(val.id)} className="DeleteButton">
-              Usuń
+              Delete
             </button>
           </div>
         ))}

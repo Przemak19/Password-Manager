@@ -20,7 +20,7 @@ app.post("/addpassword", async (req, res) => {
 
   if (score < 1) {
     const warningMessage = "Hasło jest zbyt słabe.";
-    return res.status(400).send({ message: warningMessage }); // Zwrócenie ostrzeżenia bez tłumaczenia
+    return res.status(400).send({ message: warningMessage });
   }
 
   const hashedPassword = encrypt(password);
